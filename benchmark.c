@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define BLOCK_SIZE (1024*1024) // 1 MB block size
-#define NUM_BLOCKS 1000        // Number of blocks to allocate
+#define NUM_BLOCKS 1000        // number of blocks to allocate
 
 int main()
 {
@@ -14,10 +14,10 @@ int main()
         blocks[i] = malloc(BLOCK_SIZE);
         if (blocks[i] == NULL)
         {
-            fprintf(stderr, "Memory allocation failed at iteration %d\n", i);
+            fprintf(stderr, "memory allocation failed at iteration %d\n", i);
             exit(EXIT_FAILURE);
         }
-        memset(blocks[i], 0, BLOCK_SIZE);  // Touch the memory
+        memset(blocks[i], 0, BLOCK_SIZE);  // touch the memory
     }
 
     for (int i = 0; i < NUM_BLOCKS; i++)
@@ -25,6 +25,6 @@ int main()
         free(blocks[i]);
     }
 
-    printf("Memory stress test completed.\n");
+    printf("memory stress test completed\n");
     return 0;
 }

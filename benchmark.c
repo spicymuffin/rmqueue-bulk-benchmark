@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define BLOCK_SIZE (1024*1024) // 1 MB block size
-#define NUM_BLOCKS 1000        // number of blocks to allocate
+#define NUM_BLOCKS 1024 * 4    // number of blocks to allocate
 
 int main()
 {

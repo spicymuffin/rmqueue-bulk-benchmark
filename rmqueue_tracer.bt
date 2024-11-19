@@ -1,0 +1,32 @@
+BEGIN {
+  @id = 0;
+}
+
+// on entry to rmqueue_bulk
+tracepoint:rmqueue:rmqueue_bulk_start {
+  @id++;
+  @invocation_id[tid] = @id;
+  @smallest_count[@id] = 0;
+  @cma_count[@id] = 0;
+}
+
+// increment smallest_count for the current rmqueue_bulk invocation
+tracepoint:rmqueue:rmqueue_smallest_entry /@invocation_id[tid]/ {
+  @smallest_count[@invocation_id[tid]]++;
+}
+
+// increment cma_count for the current rmqueue_bulk invocation
+tracepoint:rmqueue:rmqueue_cma_entry /@invocation_id[tid]/ {
+  @cma_count[@invocation_id[tid]]++;
+}
+
+// on return from rmqueue_bulk
+tracepoint:rmqueue:rmqueue_bulk_end /@invocation_id[tid]/ {
+  printf("rmqueue_bulk invocation %d: smallest_count=%d, cma_count=%d\n",
+         @invocation_id[tid],
+         @smallest_count[@invocation_id[tid]],
+         @cma_count[@invocation_id[tid]]);
+  delete(@smallest_count[@invocation_id[tid]]);
+  delete(@cma_count[@invocation_id[tid]]);
+  delete(@invocation_id[tid]);
+}
